@@ -8,16 +8,17 @@
 
 import UIKit
 
-class WheelLayout: UICollectionViewLayout {
-    let itemSize = CGSize(width: 140, height: 170)
+final class WheelLayout: UICollectionViewLayout {
     
-    var radius: CGFloat = 100 {
+    private let itemSize = CGSize(width: 140, height: 170)
+    
+    private var radius: CGFloat = 100 {
         didSet {
             invalidateLayout()
         }
     }
     
-    var anglePerItem: CGFloat {
+    private var anglePerItem: CGFloat {
         return atan(1)
     }
     
@@ -30,7 +31,7 @@ class WheelLayout: UICollectionViewLayout {
         return CircularCollectionViewLayoutAttributes.self
     }
     
-    var attributesList = [CircularCollectionViewLayoutAttributes]()
+    private var attributesList = [CircularCollectionViewLayoutAttributes]()
 
     override func prepare() {
         super.prepare()
@@ -60,7 +61,7 @@ class WheelLayout: UICollectionViewLayout {
         true
     }
     
-    var angleAtExtreme: CGFloat {
+    private var angleAtExtreme: CGFloat {
         return collectionView!.numberOfItems(inSection: 0) > 0 ?
             -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
     }
@@ -70,7 +71,7 @@ class WheelLayout: UICollectionViewLayout {
     }
 }
 
-class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
+final class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     var anchorPoint = CGPoint(x: 0.5, y: 0.5)
     var angle: CGFloat = 0 {
         didSet {

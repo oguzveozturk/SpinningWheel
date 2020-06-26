@@ -24,6 +24,7 @@ final class MainViewController: UIViewController {
         c.clipsToBounds = true
         c.layer.borderWidth = 10
         c.layer.borderColor = UIColor.yellow.cgColor
+        c.transform = CGAffineTransform.init(rotationAngle: (-(CGFloat)(Double.pi)))
         return c
     }()
     
@@ -44,6 +45,7 @@ final class MainViewController: UIViewController {
         centerCircle.layer.cornerRadius = centerCircle.frame.width/2
     }
 }
+//MARK: - UICollectionView Methods
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageList.count*2
@@ -59,7 +61,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: 140, height: 170)
     }
 }
-
+//MARK: - Setup Layouts
 extension MainViewController {
     private func setupLayout() {
         view.backgroundColor = .white
@@ -68,7 +70,7 @@ extension MainViewController {
             collection.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             collection.heightAnchor.constraint(equalTo: collection.widthAnchor),
             collection.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            collection.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.frame.width/2)
+            collection.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.frame.width/2.05)
         ])
         
         view.addSubview(centerCircle)
