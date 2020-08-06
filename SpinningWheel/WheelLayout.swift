@@ -10,8 +10,8 @@ import UIKit
 
 final class WheelLayout: UICollectionViewLayout {
     
-    private let itemSize = CGSize(width: 140, height: 170)
-    
+    private let itemSize = CGSize(width: UIScreen.main.bounds.width/2.679, height: UIScreen.main.bounds.width/2.21)
+
     private var radius: CGFloat = 100 {
         didSet {
             invalidateLayout()
@@ -63,8 +63,9 @@ final class WheelLayout: UICollectionViewLayout {
     
     private var angleAtExtreme: CGFloat {
         return collectionView!.numberOfItems(inSection: 0) > 0 ?
-            -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
+            CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
     }
+    
     var angle: CGFloat {
         return angleAtExtreme * collectionView!.contentOffset.y / (collectionViewContentSize.height -
             collectionView!.bounds.height)

@@ -22,9 +22,8 @@ final class MainViewController: UIViewController {
         c.dataSource = self
         c.delegate = self
         c.clipsToBounds = true
-        c.layer.borderWidth = 10
+        c.layer.borderWidth = 5
         c.layer.borderColor = UIColor.yellow.cgColor
-        c.transform = CGAffineTransform.init(rotationAngle: (-(CGFloat)(Double.pi)))
         return c
     }()
     
@@ -57,8 +56,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 140, height: 170)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(imageList[indexPath.item % imageList.count])
     }
 }
 //MARK: - Setup Layouts

@@ -24,17 +24,11 @@ final class Cell: UICollectionViewCell {
         return iv
     }()
     
+    private let path = UIBezierPath()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let path = UIBezierPath()
-        let mask = CAShapeLayer()
-        path.move(to: CGPoint(x: 0,y: 0))
-        path.addLine(to: CGPoint(x: bounds.size.width-(bounds.size.width/2), y:bounds.size.height ))
-        path.addLine(to: CGPoint(x: bounds.size.width, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: 0))
-        mask.frame = bounds
-        mask.path = path.cgPath
-        layer.mask = mask
+        triangleMask()
         setupLayout()
     }
     
@@ -46,7 +40,22 @@ final class Cell: UICollectionViewCell {
         super.apply(layoutAttributes)
         let circularlayoutAttributes = layoutAttributes as! CircularCollectionViewLayoutAttributes
         self.layer.anchorPoint = CGPoint(x: circularlayoutAttributes.anchorPoint.x, y: circularlayoutAttributes.anchorPoint.y)
-        self.center.y += (circularlayoutAttributes.anchorPoint.y - 1.1) * self.bounds.height
+        self.center.y += (circularlayoutAttributes.anchorPoint.y - 1.04) * self.bounds.height
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return path.contains(point)
+    }
+    
+    private func triangleMask() {
+        let mask = CAShapeLayer()
+        path.move(to: CGPoint(x: 0,y: 0))
+        path.addLine(to: CGPoint(x: bounds.size.width-(bounds.size.width/2), y:bounds.size.height ))
+        path.addLine(to: CGPoint(x: bounds.size.width, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+        mask.frame = bounds
+        mask.path = path.cgPath
+        layer.mask = mask
     }
     
     private func setupLayout() {
