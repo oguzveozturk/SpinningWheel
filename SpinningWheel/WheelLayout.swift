@@ -1,9 +1,9 @@
 //
 //  WheelLayout.swift
-//  SpinningWheel
+//  kombin
 //
-//  Created by Oguz on 26.06.2020.
-//  Copyright © 2020 Oguz. All rights reserved.
+//  Created by Oguz on 5.08.2020.
+//  Copyright © 2020 Improver Digital. All rights reserved.
 //
 
 import UIKit
@@ -11,12 +11,6 @@ import UIKit
 final class WheelLayout: UICollectionViewLayout {
     
     private let itemSize = CGSize(width: UIScreen.main.bounds.width/2.679, height: UIScreen.main.bounds.width/2.21)
-
-    private var radius: CGFloat = 100 {
-        didSet {
-            invalidateLayout()
-        }
-    }
     
     private var anglePerItem: CGFloat {
         return atan(1)
@@ -35,16 +29,22 @@ final class WheelLayout: UICollectionViewLayout {
 
     override func prepare() {
         super.prepare()
-        let anchorPointY = ((itemSize.height / 2.0) + radius) / itemSize.height
         let centerY = collectionView!.contentOffset.y + (collectionView!.bounds.height / 2.0)
-        attributesList = (0..<collectionView!.numberOfItems(inSection: 0)).map { (i)
+        let totalItems = collectionView!.numberOfItems(inSection: 0)
+        attributesList = (0..<totalItems).map { (i)
         -> CircularCollectionViewLayoutAttributes in
             
             let attributes = CircularCollectionViewLayoutAttributes(forCellWith: NSIndexPath(item: i, section: 0) as IndexPath)
             attributes.size = self.itemSize
             attributes.center = CGPoint(x: self.collectionView!.bounds.midX, y: centerY)
             attributes.angle = self.angle + (self.anglePerItem * CGFloat(i))
-            attributes.anchorPoint = CGPoint(x: 0.5, y: anchorPointY)
+            attributes.anchorPoint = CGPoint(x: 0.5, y: 1.05)
+            let ang = Int(attributes.angle*180/CGFloat.pi+45)
+            attributes.isHidden = true
+            if -75 <= ang && ang <= 290 {
+                attributes.isHidden = false
+            }
+            
             return attributes
         }
     }
@@ -63,12 +63,13 @@ final class WheelLayout: UICollectionViewLayout {
     
     private var angleAtExtreme: CGFloat {
         return collectionView!.numberOfItems(inSection: 0) > 0 ?
-            CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
+            CGFloat(collectionView!.numberOfItems(inSection: 0)-1) * anglePerItem : 0
     }
     
     var angle: CGFloat {
-        return angleAtExtreme * collectionView!.contentOffset.y / (collectionViewContentSize.height -
-            collectionView!.bounds.height)
+        let totalItems = CGFloat(collectionView!.numberOfItems(inSection: 0))
+        let a = angleAtExtreme * collectionView!.contentOffset.y / (collectionViewContentSize.height*(max(totalItems-1,1))/totalItems)
+        return -a + 20*CGFloat.pi/180
     }
 }
 
@@ -76,7 +77,6 @@ final class CircularCollectionViewLayoutAttributes: UICollectionViewLayoutAttrib
     var anchorPoint = CGPoint(x: 0.5, y: 0.5)
     var angle: CGFloat = 0 {
         didSet {
-            zIndex = Int(angle * 1000000)
             transform = CGAffineTransform(rotationAngle: angle)
         }
     }

@@ -8,7 +8,7 @@ SpinningWheel is a project for diffrent usage of collectionview and layout.
 
 ## Scenes
 
-<img src="https://media.giphy.com/media/cLqcU9YFUlmYk6Om4f/giphy.gif" width="187" height="333" />
+<img src="https://media.giphy.com/media/zLyuYjMaXyWjZqDM03/giphy.gif" width="187" height="321" />
 
 ## Features
 - CustomCollectionViewLayout
